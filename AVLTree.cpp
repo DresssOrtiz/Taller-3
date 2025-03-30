@@ -5,13 +5,13 @@ AVLTree::AVLTree() {
 }
 
 AVLTree::~AVLTree() {
-    // TODO: liberar memoria recursivamente si se desea
 }
 
 void AVLTree::insertar(int valor) {
     raiz = insertar(raiz, valor);
 }
 
+// Inserta un nuevo valor en el árbol, actualiza alturas y balancea si es necesario
 Nodo* AVLTree::insertar(Nodo* nodo, int valor) {
     if (nodo == nullptr) {
         return new Nodo(valor);
@@ -55,6 +55,7 @@ void AVLTree::eliminar(int valor) {
     raiz = eliminar(raiz, valor);
 }
 
+// Elimina un valor del árbol, maneja los tres casos posibles y rebalancea
 Nodo* AVLTree::eliminar(Nodo* nodo, int valor) {
     if (nodo == nullptr) {
         return nodo;
@@ -65,6 +66,7 @@ Nodo* AVLTree::eliminar(Nodo* nodo, int valor) {
     } else if (valor > nodo->dato) {
         nodo->derecho = eliminar(nodo->derecho, valor);
     } else {
+        // Nodo con uno o ningún hijo
         if (nodo->izquierdo == nullptr || nodo->derecho == nullptr) {
             Nodo* temp;
             if (nodo->izquierdo != nullptr) {
@@ -75,6 +77,7 @@ Nodo* AVLTree::eliminar(Nodo* nodo, int valor) {
             delete nodo;
             return temp;
         } else {
+            // Nodo con dos hijos: buscar sucesor inorden (menor del subárbol derecho)
             Nodo* temp = nodo->derecho;
             while (temp->izquierdo != nullptr) {
                 temp = temp->izquierdo;
@@ -157,6 +160,7 @@ int AVLTree::balance(Nodo* nodo) {
     }
 }
 
+// Rotación simple a la izquierda (caso desequilibrio hacia la derecha)
 Nodo* AVLTree::rotacionIzquierda(Nodo* x) {
     Nodo* y = x->derecho;
     Nodo* T2 = y->izquierdo;
@@ -183,6 +187,7 @@ Nodo* AVLTree::rotacionIzquierda(Nodo* x) {
     return y;
 }
 
+// Rotación simple a la derecha (caso desequilibrio hacia la izquierda)
 Nodo* AVLTree::rotacionDerecha(Nodo* y) {
     Nodo* x = y->izquierdo;
     Nodo* T2 = x->derecho;
