@@ -1,4 +1,9 @@
 #include "AVLTree.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
 
 AVLTree::AVLTree() {
     raiz = nullptr;
@@ -222,4 +227,51 @@ Nodo* AVLTree::rotacionIzquierdaDerecha(Nodo* nodo) {
 Nodo* AVLTree::rotacionDerechaIzquierda(Nodo* nodo) {
     nodo->derecho = rotacionDerecha(nodo->derecho);
     return rotacionIzquierda(nodo);
+}
+
+// Función para obtener la mediana de un AVL
+void encontrarMediana(AVLTree& arbol) {
+    vector<int> elementos;
+    arbol.inOrden(elementos);
+    
+    int n = elementos.size();
+    if (n == 0) {
+        cout << "El árbol está vacío, no hay mediana." << endl;
+        return;
+    }
+
+    int mediana;
+    if (n % 2 == 1) {
+        mediana = elementos[n / 2];
+    } else {
+        mediana = elementos[n / 2 - 1];
+    }
+    
+    int nivel = arbol.obtenerNivel(mediana);
+    cout << "La mediana es: " << mediana << " y se encuentra en el nivel: " << nivel << endl;
+}
+
+int main() {
+    AVLTree arbol;
+    ifstream archivo("in_01.txt");
+    string operacion;
+    int valor;
+
+    if (!archivo) {
+        cerr << "Error al abrir el archivo." << endl;
+        return 1;
+    }
+
+    while (archivo >> operacion >> valor) {
+        if (operacion == "A") {
+            arbol.insertar(valor);
+        } else if (operacion == "E") {
+            arbol.eliminar(valor);
+        }
+    }
+
+    archivo.close();
+    
+    encontrarMediana(arbol);
+    return 0;
 }
