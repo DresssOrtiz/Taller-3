@@ -279,13 +279,13 @@ int main() {
 
     archivo.close();
     
-    vector<int> elementos;
+    /*vector<int> elementos;
     arbol.inOrden(elementos);
     cout << "Elementos en el AVL en orden: ";
     for (int num : elementos) {
         cout << num << " ";
     }
-    cout << endl;
+    cout << endl;*/
 
     // Mostrar la mediana
     encontrarMediana(arbol);
