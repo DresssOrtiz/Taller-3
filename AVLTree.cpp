@@ -232,28 +232,35 @@ Nodo* AVLTree::rotacionDerechaIzquierda(Nodo* nodo) {
 // Función para obtener la mediana de un AVL
 void encontrarMediana(AVLTree& arbol) {
     vector<int> elementos;
-    arbol.inOrden(elementos);
+    arbol.inOrden(elementos);  // Obtener elementos ordenados
     
     int n = elementos.size();
     if (n == 0) {
         cout << "El árbol está vacío, no hay mediana." << endl;
         return;
     }
-
-    int mediana;
-    if (n % 2 == 1) {
+    
+    double mediana;
+    if (n % 2 != 0) {  
+        // Si n es impar, la mediana es el valor en la posición central
         mediana = elementos[n / 2];
-    } else {
-        mediana = elementos[n / 2 - 1];
+    } else {  
+        // Si n es par, la mediana es el promedio de los dos valores centrales
+        int mitad1 = elementos[(n / 2) - 1];  
+        int mitad2 = elementos[n / 2];  
+        mediana = (mitad1 + mitad2) / 2;  
     }
     
-    int nivel = arbol.obtenerNivel(mediana);
+    // Obtener nivel en el árbol (convertimos mediana a int para buscar en el árbol)
+    int nivel = arbol.obtenerNivel(static_cast<int>(mediana));
     cout << "La mediana es: " << mediana << " y se encuentra en el nivel: " << nivel << endl;
 }
 
+
+
 int main() {
     AVLTree arbol;
-    ifstream archivo("in_01.txt");
+    ifstream archivo("in_00.txt");
     string operacion;
     int valor;
 
@@ -272,6 +279,16 @@ int main() {
 
     archivo.close();
     
+    vector<int> elementos;
+    arbol.inOrden(elementos);
+    cout << "Elementos en el AVL en orden: ";
+    for (int num : elementos) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    // Mostrar la mediana
     encontrarMediana(arbol);
+
     return 0;
 }
